@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBA Lab 2 & Lab 3 — Complete Study Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@300;400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #141720;
+    --surface2: #1c2030;
+    --border: #252a3a;
+    --accent: #4f9cf9;
+    --accent2: #f97316;
+    --accent3: #22d3a5;
+    --accent4: #a78bfa;
+    --text: #e2e8f0;
+    --text-muted: #8892a4;
+    --danger: #f87171;
+    --warn: #fbbf24;
+    --success: #34d399;
+    --lab2: #4f9cf9;
+    --lab3: #a78bfa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 15px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0d1520 0%, #111827 50%, #0d1520 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(79,156,249,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  header .badge {
+    display: inline-block;
+    background: rgba(79,156,249,0.1);
+    border: 1px solid rgba(79,156,249,0.3);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 1.2rem;
+  }
+  header h1 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  header p {
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--text); background: var(--surface2); border-color: var(--border); }
+  nav a.lab2 { color: var(--lab2); }
+  nav a.lab3 { color: var(--lab3); }
+
+  /* ── LAYOUT ── */
+  main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+  /* ── LAB SECTION ── */
+  .lab-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem 0 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .lab-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .lab2 .lab-icon { background: rgba(79,156,249,0.15); color: var(--lab2); border: 1px solid rgba(79,156,249,0.3); }
+  .lab3 .lab-icon { background: rgba(167,139,250,0.15); color: var(--lab3); border: 1px solid rgba(167,139,250,0.3); }
+  .lab-title h2 { font-size: 1.6rem; font-weight: 800; }
+  .lab2 .lab-title h2 { color: var(--lab2); }
+  .lab3 .lab-title h2 { color: var(--lab3); }
+  .lab-title p { color: var(--text-muted); font-size: 13px; }
+
+  /* ── EXERCISE CARD ── */
+  .exercise {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  .exercise-header {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--surface2);
+  }
+  .ex-num {
+    background: rgba(79,156,249,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(79,156,249,0.25);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .exercise-header h3 { font-size: 1rem; font-weight: 700; }
+
+  /* ── STEP ── */
+  .step {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
+  .step-q {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+    padding-left: 0.8rem;
+    border-left: 3px solid var(--accent);
+    line-height: 1.5;
+  }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: #0a0c10;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0.8rem 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .code-header {
+    background: var(--surface2);
+    padding: 6px 14px;
+    font-size: 11px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .code-header .lang { color: var(--accent3); font-weight: 700; }
+  .code-block pre {
+    padding: 1rem 1.2rem;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+    color: #c9d1d9;
+  }
+  /* Syntax highlighting */
+  .kw { color: #ff7b72; }      /* keywords */
+  .fn { color: #79c0ff; }      /* functions/views */
+  .str { color: #a5d6ff; }     /* strings */
+  .cm { color: #5c6370; font-style: italic; }  /* comments */
+  .num { color: #f0883e; }     /* numbers */
+  .op { color: #ff7b72; }      /* operators */
+  .view { color: #d2a8ff; }    /* v$ views */
+
+  /* ── EXPLANATION ── */
+  .explanation {
+    background: rgba(79,156,249,0.04);
+    border-left: 3px solid var(--accent);
+    padding: 0.8rem 1rem;
+    border-radius: 0 8px 8px 0;
+    margin: 0.6rem 0;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .explanation strong { color: var(--text); }
+
+  /* ── BOXES ── */
+  .box {
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin: 0.8rem 0;
+    font-size: 14px;
+  }
+  .box-exam {
+    background: rgba(167,139,250,0.07);
+    border: 1px solid rgba(167,139,250,0.25);
+  }
+  .box-exam::before {
+    content: '🎓 EXAM KEY CONCEPT';
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--accent4);
+    margin-bottom: 0.5rem;
+  }
+  .box-warn {
+    background: rgba(251,191,36,0.07);
+    border: 1px solid rgba(251,191,36,0.25);
+  }
+  .box-warn::before {
+    content: '⚠️ COMMON MISTAKE';
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--warn);
+    margin-bottom: 0.5rem;
+  }
+  .box-success {
+    background: rgba(52,211,153,0.07);
+    border: 1px solid rgba(52,211,153,0.25);
+  }
+  .box-success::before {
+    content: '✅ EXPECTED RESULT';
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--success);
+    margin-bottom: 0.5rem;
+  }
+  .box-error {
+    background: rgba(248,113,113,0.07);
+    border: 1px solid rgba(248,113,113,0.25);
+  }
+  .box-error::before {
+    content: '❌ ERROR EXPLANATION';
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--danger);
+    margin-bottom: 0.5rem;
+  }
+  .box-info {
+    background: rgba(79,156,249,0.07);
+    border: 1px solid rgba(79,156,249,0.25);
+  }
+  .box-info::before {
+    content: 'ℹ️ CONCEPT NOTE';
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .box p, .box li { color: var(--text-muted); margin: 0.2rem 0; }
+  .box strong { color: var(--text); }
+  .box ul { padding-left: 1.2rem; }
+
+  /* ── TABLE ── */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 13px;
+  }
+  .comparison-table th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  .comparison-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: top;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .comparison-table tr:hover td { background: rgba(79,156,249,0.04); }
+  .comparison-table td strong { color: var(--text); font-family: 'Sora', sans-serif; font-size: 13px; }
+
+  /* ── SCOPE TABLE ── */
+  .scope-yes { color: var(--success); font-weight: 700; }
+  .scope-no  { color: var(--danger);  font-weight: 700; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3a4055; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">MI — S6 · DBA · A.U. 2025/2026</div>
+  <h1>Oracle DBA — Labs 2 & 3</h1>
+  <p>Complete step-by-step guide · Explanations · Exam concepts · Common mistakes</p>
+</header>
+
+<nav>
+  <span style="color:var(--text-muted);font-size:11px;padding:4px 6px;font-weight:700;letter-spacing:1px">LAB 2:</span>
+  <a href="#ex2-1" class="lab2">Ex1 · Instance</a>
+  <a href="#ex2-2" class="lab2">Ex2 · CDB/PDB</a>
+  <a href="#ex2-3" class="lab2">Ex3 · Create PDB</a>
+  <a href="#ex2-4" class="lab2">Ex4 · Direct Connect</a>
+  <span style="color:var(--text-muted);font-size:11px;padding:4px 12px;font-weight:700;letter-spacing:1px">LAB 3:</span>
+  <a href="#ex3-1" class="lab3">Ex1 · Init Params</a>
+  <a href="#ex3-2" class="lab3">Ex2 · Perf Views</a>
+</nav>
+
+<main>
+
+<!-- ════════════════════════════ LAB 2 ════════════════════════════ -->
+<div class="lab2">
+  <div class="lab-header">
+    <div class="lab-icon">2</div>
+    <div class="lab-title">
+      <h2>Lab 2 — Instance Management, CDB/PDB Architecture</h2>
+      <p>Starting instances · SPFILE/PFILE · CDB$ROOT · Pluggable Databases</p>
+    </div>
+  </div>
+
+  <!-- ── EXERCISE 1 ── -->
+  <div class="exercise" id="ex2-1">
+    <div class="exercise-header">
+      <span class="ex-num">Exercise 1</span>
+      <h3>Starting an Instance</h3>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-label">Step 1</div>
+      <div class="step-q">Connect to the database as the user SYS.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL*Plus</span><span>Terminal / CMD</span></div>
+        <pre><span class="cm">-- Option A: From the OS command line</span>
+sqlplus <span class="str">/ as sysdba</span>
+
+<span class="cm">-- Option B: With explicit password</span>
+sqlplus <span class="str">sys/your_password as sysdba</span></pre>
+      </div>
+      <div class="explanation">
+        <strong>Why <code>AS SYSDBA</code>?</strong><br>
+        SYS is the most powerful Oracle user. To use it, you must specify the role <code>AS SYSDBA</code>.
+        Without it, Oracle will refuse the connection. <code>SYSDBA</code> gives you full admin rights —
+        including the ability to start and stop the database.
+      </div>
+      <div class="box box-exam">
+        <strong>SYS vs SYSTEM:</strong>
+        <ul>
+          <li>SYS → owns the data dictionary, must connect AS SYSDBA or AS SYSOPER</li>
+          <li>SYSTEM → normal DBA user, no special role required</li>
+          <li>The <code>/ as sysdba</code> syntax uses OS authentication (no password needed if you are in the dba OS group)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-label">Step 2</div>
+      <div class="step-q">Display the SID of the instance.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>v$instance view</span></div>
+        <pre><span class="kw">SELECT</span> instance_name <span class="kw">FROM</span> <span class="view">v$instance</span>;
+
+<span class="cm">-- Alternative using SHOW PARAMETER:</span>
+<span class="kw">SHOW PARAMETER</span> instance_name;</pre>
+      </div>
+      <div class="explanation">
+        <strong>What is a SID?</strong> SID = System Identifier. It is the unique name for a running Oracle instance on the machine.
+        <code>v$instance</code> is a <em>dynamic performance view</em> that provides real-time information about the current instance.
+        The column <code>instance_name</code> contains the SID value (e.g., <code>orcl</code>).
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-label">Step 3</div>
+      <div class="step-q">Display the metadata (name, type, path) related to the SPFILE.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>v$parameter view</span></div>
+        <pre><span class="kw">SELECT</span> name, type, value
+<span class="kw">FROM</span>   <span class="view">v$parameter</span>
+<span class="kw">WHERE</span>  name <span class="op">=</span> <span class="str">'spfile'</span>;
+
+<span class="cm">-- Or even simpler:</span>
+<span class="kw">SHOW PARAMETER</span> spfile;</pre>
+      </div>
+      <div class="explanation">
+        <strong>What is an SPFILE?</strong> The SPFILE (Server Parameter File) is a <em>binary</em> file that Oracle reads
+        at startup to know all configuration parameters (memory sizes, paths, etc.). It is stored on the server.
+        The query above returns its full path on disk.
+      </div>
+      <div class="box box-exam">
+        <strong>SPFILE vs PFILE:</strong>
+        <ul>
+          <li><strong>SPFILE</strong> → binary, managed by Oracle, modified with <code>ALTER SYSTEM</code>, default since Oracle 9i</li>
+          <li><strong>PFILE</strong> (initSID.ora) → text file, edited manually in a text editor, used for troubleshooting</li>
+          <li>Oracle prefers SPFILE. If both exist, SPFILE takes priority at startup.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-label">Step 4</div>
+      <div class="step-q">Display the startup time of the instance.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>v$instance view</span></div>
+        <pre><span class="kw">SELECT</span> startup_time
+<span class="kw">FROM</span>   <span class="view">v$instance</span>;</pre>
+      </div>
+      <div class="explanation">
+        <code>startup_time</code> is a column in <code>v$instance</code> that records the exact date/time
+        when the current instance was last started. Useful for auditing and uptime checks.
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <div class="step-label">Step 5</div>
+      <div class="step-q">Shut down the database.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>Shutdown modes</span></div>
+        <pre><span class="cm">-- Most commonly used in labs — safe and clean:</span>
+<span class="kw">SHUTDOWN IMMEDIATE</span>;
+
+<span class="cm">-- Other modes (for reference):</span>
+<span class="kw">SHUTDOWN NORMAL</span>;     <span class="cm">-- waits for all sessions to disconnect</span>
+<span class="kw">SHUTDOWN TRANSACTIONAL</span>; <span class="cm">-- waits for transactions to complete</span>
+<span class="kw">SHUTDOWN ABORT</span>;      <span class="cm">-- force-kills (like a power cut, avoid in production)</span></pre>
+      </div>
+      <div class="box box-exam">
+        <strong>Shutdown Modes — must know for the exam:</strong>
+        <table class="comparison-table">
+          <tr><th>Mode</th><th>Waits for sessions?</th><th>Waits for transactions?</th><th>Recovery needed?</th></tr>
+          <tr><td>NORMAL</td><td class="scope-yes">YES</td><td class="scope-yes">YES</td><td class="scope-no">NO</td></tr>
+          <tr><td>TRANSACTIONAL</td><td class="scope-no">NO</td><td class="scope-yes">YES</td><td class="scope-no">NO</td></tr>
+          <tr><td>IMMEDIATE</td><td class="scope-no">NO</td><td class="scope-no">NO</td><td class="scope-no">NO</td></tr>
+          <tr><td>ABORT</td><td class="scope-no">NO</td><td class="scope-no">NO</td><td class="scope-yes">YES</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step">
+      <div class="step-label">Step 6</div>
+      <div class="step-q">Create a PFILE from the SPFILE. Place it in path/orcl/PFILE/ named init1.ora.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>Must be connected as SYS (database can be in NOMOUNT or MOUNT state)</span></div>
+        <pre><span class="cm">-- Step 6a: Create the PFILE from the existing SPFILE</span>
+<span class="kw">CREATE PFILE</span>=<span class="str">'path/orcl/PFILE/init1.ora'</span>
+  <span class="kw">FROM SPFILE</span>=<span class="str">'C:\app\yourNAME\product\12.1.0\dbhome_1\database\SPFILEorcl.ora'</span>;
+
+<span class="cm">-- If you want Oracle to find the SPFILE automatically (uses default location):</span>
+<span class="kw">CREATE PFILE</span>=<span class="str">'path/orcl/PFILE/init1.ora'</span> <span class="kw">FROM SPFILE</span>;</pre>
+      </div>
+      <div class="explanation">
+        <strong>What is happening here?</strong> You are converting the binary SPFILE into a readable text file (PFILE).
+        This is useful when you want to manually edit a parameter that cannot be changed dynamically,
+        or when you need to troubleshoot a startup failure.
+      </div>
+      <div class="box box-warn">
+        <strong>The database must be SHUT DOWN before creating a PFILE to use for startup.</strong>
+        <p>You cannot start the database with a PFILE while the instance is already running. The CREATE PFILE command
+        itself can run while the DB is open, but to then USE the PFILE to start, the DB must first be down.</p>
+      </div>
+    </div>
+
+    <!-- Step 7 -->
+    <div class="step">
+      <div class="step-label">Step 7</div>
+      <div class="step-q">Start the database using the PFILE (you must be connected as "sys").</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>Startup with explicit PFILE</span></div>
+        <pre><span class="kw">STARTUP PFILE</span>=<span class="str">'path/orcl/PFILE/init1.ora'</span>;</pre>
+      </div>
+      <div class="explanation">
+        <strong>Without specifying PFILE:</strong> <code>STARTUP</code> alone will look for the SPFILE in default locations.
+        By specifying <code>PFILE=</code>, you force Oracle to use your text init file instead of the binary SPFILE.
+      </div>
+    </div>
+
+    <!-- Step 8 -->
+    <div class="step">
+      <div class="step-label">Step 8</div>
+      <div class="step-q">Display the sessions connected to the database using the v$session view.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>v$session view</span></div>
+        <pre><span class="cm">-- Full list of all sessions:</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="view">v$session</span>;
+
+<span class="cm">-- Cleaner, more useful version:</span>
+<span class="kw">SELECT</span> sid, serial#, username, status, machine, program
+<span class="kw">FROM</span>  <span class="view">v$session</span>
+<span class="kw">WHERE</span> username <span class="op">IS NOT NULL</span>;
+
+<span class="cm">-- Count total active sessions:</span>
+<span class="kw">SELECT COUNT</span>(*) <span class="kw">FROM</span> <span class="view">v$session</span>;</pre>
+      </div>
+      <div class="explanation">
+        <code>v$session</code> shows all current sessions (connections) to the database.
+        Important columns: <code>SID</code> (session ID), <code>USERNAME</code> (who is connected),
+        <code>STATUS</code> (ACTIVE or INACTIVE), <code>MACHINE</code> (client machine name).
+        Background processes (like SMON, PMON) have NULL username.
+      </div>
+    </div>
+  </div>
+  <!-- END Exercise 1 -->
+
+
+  <!-- ── EXERCISE 2 ── -->
+  <div class="exercise" id="ex2-2">
+    <div class="exercise-header">
+      <span class="ex-num">Exercise 2</span>
+      <h3>Information about the CDB and PDBs</h3>
+    </div>
+
+    <div class="step">
+      <div class="box box-info">
+        <strong>Essential background: What is CDB/PDB architecture?</strong>
+        <ul>
+          <li><strong>CDB (Container Database)</strong>: The main Oracle database container. It has one root container called <code>CDB$ROOT</code>.</li>
+          <li><strong>PDB (Pluggable Database)</strong>: A self-contained database that lives inside the CDB. Like a tenant in an apartment building.</li>
+          <li><strong>CDB$ROOT</strong>: The root of the CDB. When you connect with SYSDBA, you start here.</li>
+          <li><strong>PDB$SEED</strong>: A read-only template used to create new PDBs. You cannot modify it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Steps 1-2 -->
+    <div class="step">
+      <div class="step-label">Steps 1 & 2</div>
+      <div class="step-q">1. Display the name of the instance. &nbsp; 2. Give the name of the current CDB.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span></span></div>
+        <pre><span class="cm">-- Step 1: Instance name (the running Oracle process)</span>
+<span class="kw">SELECT</span> instance_name <span class="kw">FROM</span> <span class="view">v$instance</span>;
+<span class="cm">-- Or:</span>
+<span class="kw">SHOW</span> con_name;   <span class="cm">-- shows current container context</span>
+
+<span class="cm">-- Step 2: Name of the current CDB</span>
+<span class="kw">SELECT</span> name, cdb <span class="kw">FROM</span> <span class="view">v$database</span>;
+<span class="cm">-- Column 'cdb' will show YES if this is a CDB, NO if it is not</span></pre>
+      </div>
+      <div class="explanation">
+        <strong>Instance name vs Database name:</strong> The <em>instance</em> is the memory + processes running.
+        The <em>database</em> is the actual data files. They often have the same name, but they are different concepts.
+        <code>v$instance.instance_name</code> → instance. <code>v$database.name</code> → database.
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-label">Step 3</div>
+      <div class="step-q">Display the list of PDBs contained within the CDB$ROOT container.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>Must be connected to CDB$ROOT as SYSDBA</span></div>
+        <pre><span class="cm">-- Method 1: using v$pdbs view</span>
+<span class="kw">SELECT</span> name, con_id, open_mode
+<span class="kw">FROM</span>  <span class="view">v$pdbs</span>;
+
+<span class="cm">-- Method 2: SQL*Plus shortcut</span>
+<span class="kw">SHOW PDBS</span>;</pre>
+      </div>
+      <div class="explanation">
+        <code>v$pdbs</code> shows all PDBs known to the CDB. You will always see at least
+        <code>PDB$SEED</code> (the template, always MOUNTED/READ ONLY) plus any PDBs you have created.
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-label">Step 4</div>
+      <div class="step-q">Display all PDBs with their current startup states.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">SELECT</span> name, open_mode, restricted
+<span class="kw">FROM</span>  <span class="view">v$pdbs</span>;</pre>
+      </div>
+      <div class="box box-exam">
+        <strong>PDB Open Modes — know these!</strong>
+        <table class="comparison-table">
+          <tr><th>open_mode</th><th>Meaning</th></tr>
+          <tr><td>MOUNTED</td><td>PDB is closed (not accessible to users)</td></tr>
+          <tr><td>READ WRITE</td><td>PDB is open — users can read AND write data</td></tr>
+          <tr><td>READ ONLY</td><td>PDB is open but no data modifications allowed</td></tr>
+          <tr><td>MIGRATE</td><td>PDB is in upgrade mode</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <div class="step-label">Step 5</div>
+      <div class="step-q">Connect to the PDB named pdborcl, then display the name of the current PDB.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Connect to the PDB (switching container context)</span>
+<span class="kw">ALTER SESSION SET CONTAINER</span> = pdborcl;
+
+<span class="cm">-- Verify you are now inside pdborcl</span>
+<span class="kw">SHOW CON_NAME</span>;
+<span class="cm">-- Should output: CON_NAME = PDBORCL</span>
+
+<span class="cm">-- Alternative: check v$pdbs (from CDB$ROOT)</span>
+<span class="kw">SELECT</span> sys_context(<span class="str">'USERENV'</span>, <span class="str">'CON_NAME'</span>) <span class="kw">FROM</span> dual;</pre>
+      </div>
+      <div class="explanation">
+        <strong>ALTER SESSION SET CONTAINER</strong> does not change the connection — you stay connected as SYSDBA.
+        But it <em>switches your context</em> from CDB$ROOT into the PDB. Think of it like entering a room inside a building.
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step">
+      <div class="step-label">Step 6</div>
+      <div class="step-q">Display the open mode of "pdborcl", then activate read/write mode.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- From CDB$ROOT, check current mode:</span>
+<span class="kw">SELECT</span> name, open_mode <span class="kw">FROM</span> <span class="view">v$pdbs</span> <span class="kw">WHERE</span> name = <span class="str">'PDBORCL'</span>;
+
+<span class="cm">-- Activate read/write mode:</span>
+<span class="kw">ALTER PLUGGABLE DATABASE</span> pdborcl <span class="kw">OPEN READ WRITE</span>;</pre>
+      </div>
+    </div>
+
+    <!-- Step 7 -->
+    <div class="step">
+      <div class="step-label">Step 7</div>
+      <div class="step-q">Shut down the database, then open it in read-only mode.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>Run from CDB$ROOT as SYSDBA</span></div>
+        <pre><span class="cm">-- Close the PDB first</span>
+<span class="kw">ALTER PLUGGABLE DATABASE</span> pdborcl <span class="kw">CLOSE IMMEDIATE</span>;
+
+<span class="cm">-- Reopen in READ ONLY mode</span>
+<span class="kw">ALTER PLUGGABLE DATABASE</span> pdborcl <span class="kw">OPEN READ ONLY</span>;</pre>
+      </div>
+    </div>
+
+    <!-- Step 8 -->
+    <div class="step">
+      <div class="step-label">Step 8</div>
+      <div class="step-q">Connect as HR and insert a row into REGIONS. What happens?</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Connect as HR user inside pdborcl</span>
+conn hr/hr@pdborcl
+
+<span class="cm">-- Try to insert:</span>
+<span class="kw">INSERT INTO</span> regions <span class="kw">VALUES</span> (<span class="num">5</span>, <span class="str">'Mars'</span>);</pre>
+      </div>
+      <div class="box box-error">
+        <strong>What happens?</strong> You will get an error like:
+        <br><code>ORA-16000: database or pluggable database open for read-only access</code>
+        <br><br>
+        <strong>Why?</strong> Because in Step 7 we opened pdborcl in <code>READ ONLY</code> mode.
+        In this mode, no INSERT, UPDATE, or DELETE operations are allowed — only SELECT queries work.
+        This is by design — it protects the data from accidental modification.
+      </div>
+    </div>
+
+    <!-- Step 9 -->
+    <div class="step">
+      <div class="step-label">Step 9</div>
+      <div class="step-q">Reassign read-write mode, then insert the row.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- First, reconnect as SYSDBA to change the PDB mode</span>
+conn sys/password@orcl as sysdba
+
+<span class="cm">-- Close and reopen in READ WRITE mode</span>
+<span class="kw">ALTER PLUGGABLE DATABASE</span> pdborcl <span class="kw">CLOSE IMMEDIATE</span>;
+<span class="kw">ALTER PLUGGABLE DATABASE</span> pdborcl <span class="kw">OPEN READ WRITE</span>;
+
+<span class="cm">-- Now reconnect as HR and insert</span>
+conn hr/hr@pdborcl
+<span class="kw">INSERT INTO</span> regions <span class="kw">VALUES</span> (<span class="num">5</span>, <span class="str">'Mars'</span>);
+<span class="kw">COMMIT</span>;</pre>
+      </div>
+      <div class="explanation">
+        This time the INSERT will succeed because the PDB is back in READ WRITE mode.
+        Don't forget <code>COMMIT</code> — in Oracle, DML (INSERT/UPDATE/DELETE) is not automatically committed.
+      </div>
+    </div>
+
+    <!-- Step 10 -->
+    <div class="step">
+      <div class="step-label">Step 10</div>
+      <div class="step-q">Activate the session in restricted mode.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Must be connected to the PDB as SYSDBA</span>
+<span class="kw">ALTER PLUGGABLE DATABASE</span> pdborcl <span class="kw">RESTRICTED</span>;
+
+<span class="cm">-- Verify:</span>
+<span class="kw">SELECT</span> name, open_mode, restricted <span class="kw">FROM</span> <span class="view">v$pdbs</span> <span class="kw">WHERE</span> name = <span class="str">'PDBORCL'</span>;</pre>
+      </div>
+      <div class="box box-exam">
+        <strong>RESTRICTED mode</strong> means only users with the <code>RESTRICTED SESSION</code> system privilege
+        can connect. Regular users like HR are blocked. This is used for maintenance tasks (schema changes, imports).
+        It is NOT the same as READ ONLY — in restricted mode you can still write data, you just limit who can connect.
+      </div>
+    </div>
+
+    <!-- Step 11 -->
+    <div class="step">
+      <div class="step-label">Step 11</div>
+      <div class="step-q">Connect as user HR with password HR. What do you notice?</div>
+      <div class="box box-error">
+        <strong>What happens:</strong> The connection is refused.
+        <br><br>
+        Oracle returns: <code>ORA-01035: ORACLE only available to users with RESTRICTED SESSION privilege</code>
+        <br><br>
+        <strong>Why?</strong> In RESTRICTED mode, only users who explicitly have the <code>RESTRICTED SESSION</code> privilege
+        can log in. HR is a regular user without this privilege, so Oracle blocks the connection entirely.
+        Only SYSDBA-level accounts can access the database in this state.
+      </div>
+    </div>
+  </div>
+  <!-- END Exercise 2 -->
+
+
+  <!-- ── EXERCISE 3 ── -->
+  <div class="exercise" id="ex2-3">
+    <div class="exercise-header">
+      <span class="ex-num">Exercise 3</span>
+      <h3>Creating a PDB</h3>
+    </div>
+
+    <div class="step">
+      <div class="box box-info">
+        <strong>Before starting — Prerequisites to create a PDB:</strong>
+        <ul>
+          <li>The CDB must be in <strong>READ/WRITE</strong> mode (not READ ONLY)</li>
+          <li>You must have the <strong>CREATE PLUGGABLE DATABASE</strong> system privilege</li>
+          <li>You must choose a <strong>unique name</strong> for the PDB within the CDB</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Steps 1-3 -->
+    <div class="step">
+      <div class="step-label">Steps 1 → 3</div>
+      <div class="step-q">1. Use DBCA to create pdbCS. &nbsp; 2. Shutdown + startup. &nbsp; 3. Show pdbs.</div>
+      <div class="explanation">
+        <strong>Step 1 (DBCA):</strong> DBCA (Database Configuration Assistant) is Oracle's GUI tool.
+        Open it → choose "Manage Pluggable Databases" → Create PDB → follow wizard → name it <code>pdbCS</code>.
+        <br><br>
+        Alternatively, via command line:
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>Command-line alternative to DBCA</span></div>
+        <pre><span class="cm">-- Create pdbCS from the seed (PDB$SEED template)</span>
+<span class="kw">CREATE PLUGGABLE DATABASE</span> pdbCS
+  <span class="kw">ADMIN USER</span> pdbCS_admin <span class="kw">IDENTIFIED BY</span> <span class="str">password123</span>
+  <span class="kw">FILE_NAME_CONVERT</span> = (<span class="str">'C:\app\yourNAME\oradata\orcl\pdbseed\'</span>,
+                       <span class="str">'C:\app\yourNAME\oradata\orcl\pdbCS\'</span>);</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>Step 2 & 3</span></div>
+        <pre><span class="cm">-- Step 2: Shutdown and restart the CDB</span>
+<span class="kw">SHUTDOWN IMMEDIATE</span>;
+<span class="kw">STARTUP</span>;
+
+<span class="cm">-- Step 3: Show all PDBs</span>
+<span class="kw">SHOW PDBS</span>;
+<span class="cm">-- or:</span>
+<span class="kw">SELECT</span> name, open_mode <span class="kw">FROM</span> <span class="view">v$pdbs</span>;</pre>
+      </div>
+      <div class="box box-warn">
+        <strong>After CDB restart, PDBs start in MOUNTED state by default!</strong>
+        <p>Even if pdbCS was open before the shutdown, Oracle does NOT automatically reopen PDBs after a CDB restart
+        unless you configure auto-start triggers. You must manually open each PDB you need.</p>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-label">Step 4</div>
+      <div class="step-q">Start the pdbCS database using ALTER PLUGGABLE DATABASE.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">ALTER PLUGGABLE DATABASE</span> pdbCS <span class="kw">OPEN READ WRITE</span>;</pre>
+      </div>
+    </div>
+
+    <!-- Steps 5-6 -->
+    <div class="step">
+      <div class="step-label">Steps 5 & 6</div>
+      <div class="step-q">5. Display current PDB status. &nbsp; 6. Open ALL PDBs simultaneously.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Step 5: Check all PDB statuses</span>
+<span class="kw">SELECT</span> name, open_mode <span class="kw">FROM</span> <span class="view">v$pdbs</span>;
+
+<span class="cm">-- Step 6: Open ALL PDBs at once using the ALL option</span>
+<span class="kw">ALTER PLUGGABLE DATABASE ALL OPEN READ WRITE</span>;</pre>
+      </div>
+      <div class="explanation">
+        The <code>ALL</code> keyword is a very convenient shortcut — it targets every PDB in the CDB
+        simultaneously. Without it, you would need a separate ALTER command for each PDB.
+      </div>
+    </div>
+
+    <!-- Steps 7-9 -->
+    <div class="step">
+      <div class="step-label">Steps 7, 8 & 9</div>
+      <div class="step-q">STARTUP command, open pdbCS, display status.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Step 7: STARTUP can also open a PDB (when connected inside it):</span>
+<span class="kw">ALTER SESSION SET CONTAINER</span> = pdbCS;
+<span class="kw">STARTUP</span>;     <span class="cm">-- opens the current PDB only</span>
+
+<span class="cm">-- Check v$pdbs from CDB$ROOT</span>
+<span class="kw">ALTER SESSION SET CONTAINER</span> = CDB$ROOT;
+<span class="kw">SELECT</span> name, open_mode <span class="kw">FROM</span> <span class="view">v$pdbs</span>;
+
+<span class="cm">-- Step 8: Simple open (defaults to READ WRITE if not specified)</span>
+<span class="kw">ALTER PLUGGABLE DATABASE</span> pdbCS <span class="kw">OPEN</span>;
+
+<span class="cm">-- Step 9: Display status again</span>
+<span class="kw">SHOW PDBS</span>;</pre>
+      </div>
+    </div>
+
+    <!-- Steps 10-11 -->
+    <div class="step">
+      <div class="step-label">Steps 10 & 11</div>
+      <div class="step-q">10. Close pdbCS immediately. &nbsp; 11. Close ALL PDBs EXCEPT pdbCS.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Step 10: Close one specific PDB</span>
+<span class="kw">ALTER PLUGGABLE DATABASE</span> pdbCS <span class="kw">CLOSE IMMEDIATE</span>;
+
+<span class="cm">-- Step 11: Close ALL PDBs EXCEPT pdbCS</span>
+<span class="kw">ALTER PLUGGABLE DATABASE ALL EXCEPT</span> pdbCS <span class="kw">CLOSE IMMEDIATE</span>;</pre>
+      </div>
+      <div class="box box-exam">
+        <strong>Key syntax summary for the exam:</strong>
+        <table class="comparison-table">
+          <tr><th>Goal</th><th>Command</th></tr>
+          <tr><td>Open one PDB (RW)</td><td><code>ALTER PLUGGABLE DATABASE pdbCS OPEN READ WRITE;</code></td></tr>
+          <tr><td>Open one PDB (default)</td><td><code>ALTER PLUGGABLE DATABASE pdbCS OPEN;</code></td></tr>
+          <tr><td>Open ALL PDBs</td><td><code>ALTER PLUGGABLE DATABASE ALL OPEN READ WRITE;</code></td></tr>
+          <tr><td>Close one PDB</td><td><code>ALTER PLUGGABLE DATABASE pdbCS CLOSE IMMEDIATE;</code></td></tr>
+          <tr><td>Close ALL EXCEPT one</td><td><code>ALTER PLUGGABLE DATABASE ALL EXCEPT pdbCS CLOSE IMMEDIATE;</code></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- END Exercise 3 -->
+
+
+  <!-- ── EXERCISE 4 ── -->
+  <div class="exercise" id="ex2-4">
+    <div class="exercise-header">
+      <span class="ex-num">Exercise 4</span>
+      <h3>Direct Connection to PDB without going through the CDB</h3>
+    </div>
+
+    <div class="step">
+      <div class="box box-info">
+        <strong>Why does this need special setup?</strong>
+        <p>So far we connected to PDBs by first connecting to the CDB, then switching container (<code>ALTER SESSION SET CONTAINER</code>).
+        But in production, applications need to connect <em>directly</em> to a PDB using a connection string like
+        <code>@pdbCS</code>. For this to work, Oracle's listener must know about the PDB — configured in <code>tnsnames.ora</code>.</p>
+      </div>
+    </div>
+
+    <!-- Steps 1-3 -->
+    <div class="step">
+      <div class="step-label">Steps 1, 2 & 3</div>
+      <div class="step-q">1. Verify listener is running. &nbsp; 2. Try to connect directly to pdbCS. &nbsp; 3. What happens?</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">OS Terminal / CMD</span></div>
+        <pre><span class="cm">-- Step 1: Check listener status</span>
+lsnrctl status
+
+<span class="cm">-- Step 2: Try connecting directly to pdbCS</span>
+sqlplus sys/your_password@pdbCS AS SYSDBA</pre>
+      </div>
+      <div class="box box-error">
+        <strong>Step 3 — What happens?</strong>
+        <br>The connection FAILS with:
+        <br><code>ORA-12154: TNS:could not resolve the connect identifier specified</code>
+        <br><br>
+        <strong>Why?</strong> Oracle uses the file <code>tnsnames.ora</code> to resolve names like <code>@pdbCS</code>
+        to a real network address (host + port + service). Since we haven't added pdbCS to that file yet,
+        Oracle doesn't know what <code>pdbCS</code> means as a network destination.
+      </div>
+    </div>
+
+    <!-- Steps 4-5 -->
+    <div class="step">
+      <div class="step-label">Steps 4 & 5</div>
+      <div class="step-q">Open tnsnames.ora and add an alias entry for pdbCS.</div>
+      <div class="explanation">
+        <strong>Where is tnsnames.ora?</strong> Default path:
+        <br><code>$ORACLE_HOME/network/admin/tnsnames.ora</code>
+        <br>e.g.: <code>C:\app\yourNAME\product\12.1.0\dbhome_1\network\admin\tnsnames.ora</code>
+        <br><br>Open it with a text editor (Notepad on Windows, gedit/nano on Linux).
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">tnsnames.ora</span><span>Add this block to the file</span></div>
+        <pre>PDBCS =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = pdbCS)
+    )
+  )</pre>
+      </div>
+      <div class="explanation">
+        <strong>What each part means:</strong><br>
+        • <code>PDBCS</code> → the alias name you will type after the <code>@</code><br>
+        • <code>HOST = localhost</code> → the server where Oracle runs (localhost = this machine)<br>
+        • <code>PORT = 1521</code> → Oracle's default listener port<br>
+        • <code>SERVICE_NAME = pdbCS</code> → the Oracle service name for this PDB (usually same as PDB name)
+      </div>
+    </div>
+
+    <!-- Steps 6-7 -->
+    <div class="step">
+      <div class="step-label">Steps 6 & 7</div>
+      <div class="step-q">6. Connect using the same command from Step 2. &nbsp; 7. Display the current PDB.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Step 6: Now the direct connection works</span>
+sqlplus sys/your_password@pdbCS <span class="kw">AS SYSDBA</span>
+
+<span class="cm">-- Step 7: Confirm you are inside pdbCS</span>
+<span class="kw">SHOW CON_NAME</span>;
+<span class="cm">-- Output: CON_NAME = PDBCS</span></pre>
+      </div>
+      <div class="box box-exam">
+        <strong>tnsnames.ora — exam key points:</strong>
+        <ul>
+          <li>Located in <code>$ORACLE_HOME/network/admin/</code></li>
+          <li>Maps aliases to network addresses — needed for remote/direct PDB connections</li>
+          <li>After editing, <strong>no restart needed</strong> — Oracle reads it fresh on each new connection</li>
+          <li>Use <code>tnsping pdbCS</code> in the terminal to test if the alias resolves correctly</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- END Exercise 4 -->
+</div>
+<!-- END LAB 2 -->
+
+
+<!-- ════════════════════════════ LAB 3 ════════════════════════════ -->
+<div class="lab3">
+  <div class="lab-header">
+    <div class="lab-icon">3</div>
+    <div class="lab-title">
+      <h2>Lab 3 — Initialization Parameters & Dynamic Performance Views</h2>
+      <p>SPFILE scopes · Parameter management · v$ views for monitoring</p>
+    </div>
+  </div>
+
+  <!-- ── EXERCISE 1 ── -->
+  <div class="exercise" id="ex3-1">
+    <div class="exercise-header">
+      <span class="ex-num">Exercise 1</span>
+      <h3>Initialization Parameters</h3>
+    </div>
+
+    <div class="step">
+      <div class="box box-info">
+        <strong>The 3 parameter views — crucial to understand:</strong>
+        <table class="comparison-table">
+          <tr><th>View</th><th>What it shows</th><th>When it updates</th></tr>
+          <tr>
+            <td><code>v$parameter</code></td>
+            <td>Current values <strong>in memory</strong> (what the running instance uses)</td>
+            <td>Immediately when SCOPE=MEMORY or SCOPE=BOTH</td>
+          </tr>
+          <tr>
+            <td><code>v$spparameter</code></td>
+            <td>Values <strong>stored in the SPFILE</strong> on disk</td>
+            <td>Immediately when SCOPE=SPFILE or SCOPE=BOTH</td>
+          </tr>
+          <tr>
+            <td><code>v$system_parameter</code></td>
+            <td>Current system-level values in memory (similar to v$parameter for system-wide params)</td>
+            <td>Immediately when changed at SYSTEM level</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-label">Step 1</div>
+      <div class="step-q">Display the spfile location.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Method 1</span>
+<span class="kw">SELECT</span> value <span class="kw">FROM</span> <span class="view">v$parameter</span> <span class="kw">WHERE</span> name = <span class="str">'spfile'</span>;
+
+<span class="cm">-- Method 2 (simpler)</span>
+<span class="kw">SHOW PARAMETER</span> spfile;</pre>
+      </div>
+      <div class="explanation">
+        If the value is empty (NULL), Oracle is currently running with a PFILE (text init file), not an SPFILE.
+        If you see a path, Oracle is using an SPFILE located at that path.
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-label">Step 2</div>
+      <div class="step-q">Display the maximum number of connected processes from both v$parameter and v$spparameter.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- 2a: From v$parameter (in-memory value)</span>
+<span class="kw">SELECT</span> name, value, description
+<span class="kw">FROM</span>  <span class="view">v$parameter</span>
+<span class="kw">WHERE</span> name = <span class="str">'processes'</span>;
+
+<span class="cm">-- 2b: From v$spparameter (value stored in SPFILE)</span>
+<span class="kw">SELECT</span> name, value, isspecified
+<span class="kw">FROM</span>  <span class="view">v$spparameter</span>
+<span class="kw">WHERE</span> name = <span class="str">'processes'</span>;</pre>
+      </div>
+      <div class="explanation">
+        <strong><code>processes</code></strong> controls the maximum number of OS processes that can connect to Oracle simultaneously.
+        The default is typically 150–300. This is a <em>static parameter</em> — changes require a database restart.
+        <br><br>
+        <code>isspecified</code> in v$spparameter: <code>TRUE</code> = explicitly set in SPFILE, <code>FALSE</code> = using the default value.
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-label">Step 3</div>
+      <div class="step-q">Modify processes in the SPFILE using SCOPE=SPFILE. Query both views. What do you notice?</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Modify the value in the SPFILE only</span>
+<span class="kw">ALTER SYSTEM SET</span> processes = <span class="num">300</span> <span class="kw">SCOPE</span>=<span class="kw">SPFILE</span>;
+
+<span class="cm">-- Now check both views:</span>
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$parameter</span>   <span class="kw">WHERE</span> name = <span class="str">'processes'</span>;
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$spparameter</span> <span class="kw">WHERE</span> name = <span class="str">'processes'</span>;</pre>
+      </div>
+      <div class="box box-success">
+        <strong>What you observe after SCOPE=SPFILE:</strong>
+        <ul>
+          <li><code>v$spparameter</code> → shows the NEW value (300) — because the SPFILE on disk was updated</li>
+          <li><code>v$parameter</code> → shows the OLD value (e.g., 150) — the running instance has NOT changed yet</li>
+        </ul>
+        The change is "pending" — it will take effect only after the next database restart.
+      </div>
+      <div class="box box-exam">
+        <strong>SCOPE values — this is a very common exam topic:</strong>
+        <table class="comparison-table">
+          <tr><th>SCOPE</th><th>Updates SPFILE?</th><th>Updates Memory?</th><th>Survives restart?</th><th>Typical use</th></tr>
+          <tr>
+            <td><code>SPFILE</code></td>
+            <td class="scope-yes">YES</td><td class="scope-no">NO</td><td class="scope-yes">YES</td>
+            <td>Static params that need restart</td>
+          </tr>
+          <tr>
+            <td><code>MEMORY</code></td>
+            <td class="scope-no">NO</td><td class="scope-yes">YES</td><td class="scope-no">NO</td>
+            <td>Temporary / test changes</td>
+          </tr>
+          <tr>
+            <td><code>BOTH</code></td>
+            <td class="scope-yes">YES</td><td class="scope-yes">YES</td><td class="scope-yes">YES</td>
+            <td>Dynamic params, permanent change</td>
+          </tr>
+        </table>
+        <p>Default when SCOPE is not specified: <strong>BOTH</strong> (if dynamic) or <strong>SPFILE</strong> (if static).</p>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-label">Step 4</div>
+      <div class="step-q">Stop and restart the instance, then re-display the values. What do you notice?</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">SHUTDOWN IMMEDIATE</span>;
+<span class="kw">STARTUP</span>;
+
+<span class="cm">-- Check both views again</span>
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$parameter</span>   <span class="kw">WHERE</span> name = <span class="str">'processes'</span>;
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$spparameter</span> <span class="kw">WHERE</span> name = <span class="str">'processes'</span>;</pre>
+      </div>
+      <div class="box box-success">
+        <strong>After restart:</strong> Both views now show <strong>300</strong>.
+        The instance started by reading the SPFILE, which had the new value. So memory is now in sync with the SPFILE.
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <div class="step-label">Step 5</div>
+      <div class="step-q">Display the maximum number of open cursors from all 3 views.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- From all 3 views simultaneously</span>
+<span class="kw">SELECT</span> <span class="str">'v$parameter'</span>        source, name, value <span class="kw">FROM</span> <span class="view">v$parameter</span>        <span class="kw">WHERE</span> name=<span class="str">'open_cursors'</span>
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> <span class="str">'v$spparameter'</span>      source, name, value <span class="kw">FROM</span> <span class="view">v$spparameter</span>      <span class="kw">WHERE</span> name=<span class="str">'open_cursors'</span>
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> <span class="str">'v$system_parameter'</span> source, name, value <span class="kw">FROM</span> <span class="view">v$system_parameter</span> <span class="kw">WHERE</span> name=<span class="str">'open_cursors'</span>;</pre>
+      </div>
+      <div class="explanation">
+        <strong><code>open_cursors</code></strong> = maximum number of open cursor handles a user can have simultaneously.
+        Default is 300. Unlike <code>processes</code>, this is a <em>dynamic parameter</em> — it can be changed without restart using SCOPE=MEMORY or SCOPE=BOTH.
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step">
+      <div class="step-label">Step 6</div>
+      <div class="step-q">Modify open_cursors IN MEMORY using SCOPE=MEMORY. Check all 3 views. What do you notice?</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">ALTER SYSTEM SET</span> open_cursors = <span class="num">400</span> <span class="kw">SCOPE</span>=<span class="kw">MEMORY</span>;
+
+<span class="cm">-- Check all 3 views:</span>
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$parameter</span>        <span class="kw">WHERE</span> name=<span class="str">'open_cursors'</span>;
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$spparameter</span>      <span class="kw">WHERE</span> name=<span class="str">'open_cursors'</span>;
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$system_parameter</span> <span class="kw">WHERE</span> name=<span class="str">'open_cursors'</span>;</pre>
+      </div>
+      <div class="box box-success">
+        <strong>What you observe after SCOPE=MEMORY:</strong>
+        <ul>
+          <li><code>v$parameter</code> → shows <strong>400</strong> (new value in memory)</li>
+          <li><code>v$system_parameter</code> → shows <strong>400</strong> (new value in memory)</li>
+          <li><code>v$spparameter</code> → shows <strong>OLD value</strong> (e.g., 300) — the SPFILE was NOT touched</li>
+        </ul>
+        The change is live NOW, but it will NOT survive a restart.
+      </div>
+    </div>
+
+    <!-- Step 7 -->
+    <div class="step">
+      <div class="step-label">Step 7</div>
+      <div class="step-q">Stop and restart, then re-display the values from all 3 views. What do you notice?</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">SHUTDOWN IMMEDIATE</span>;
+<span class="kw">STARTUP</span>;
+
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$parameter</span>        <span class="kw">WHERE</span> name=<span class="str">'open_cursors'</span>;
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$spparameter</span>      <span class="kw">WHERE</span> name=<span class="str">'open_cursors'</span>;
+<span class="kw">SELECT</span> name, value <span class="kw">FROM</span> <span class="view">v$system_parameter</span> <span class="kw">WHERE</span> name=<span class="str">'open_cursors'</span>;</pre>
+      </div>
+      <div class="box box-success">
+        <strong>After restart:</strong> All 3 views show the <strong>OLD value again</strong> (e.g., 300).
+        The MEMORY change was lost because it was never written to the SPFILE. Oracle reloads parameters from the SPFILE at startup.
+      </div>
+    </div>
+
+    <!-- Step 8 -->
+    <div class="step">
+      <div class="step-label">Step 8</div>
+      <div class="step-q">Try modifying other parameters using the different scope options.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span><span>Examples with different scopes</span></div>
+        <pre><span class="cm">-- Example: change SGA target using SCOPE=BOTH (if it's dynamic)</span>
+<span class="kw">ALTER SYSTEM SET</span> sga_target = <span class="num">600M</span> <span class="kw">SCOPE</span>=<span class="kw">BOTH</span>;
+
+<span class="cm">-- Example: test SCOPE=SPFILE only (static param)</span>
+<span class="kw">ALTER SYSTEM SET</span> db_files = <span class="num">300</span> <span class="kw">SCOPE</span>=<span class="kw">SPFILE</span>;
+
+<span class="cm">-- Example: test SCOPE=MEMORY only (temporary)</span>
+<span class="kw">ALTER SYSTEM SET</span> open_cursors = <span class="num">500</span> <span class="kw">SCOPE</span>=<span class="kw">MEMORY</span>;</pre>
+      </div>
+      <div class="box box-warn">
+        <strong>Not all parameters support all scopes!</strong>
+        <ul>
+          <li>Static parameters (like <code>processes</code>) → only SCOPE=SPFILE works (the instance is running, memory can't be changed live)</li>
+          <li>Dynamic parameters (like <code>open_cursors</code>) → all 3 scopes are valid</li>
+          <li>If you try SCOPE=MEMORY on a static param, Oracle gives: <code>ORA-02095: specified initialization parameter cannot be modified</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Step 9 -->
+    <div class="step">
+      <div class="step-label">Step 9</div>
+      <div class="step-q">Revert all modifications made to the spfile.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Method 1: Reset a specific parameter to its default value</span>
+<span class="kw">ALTER SYSTEM RESET</span> processes <span class="kw">SCOPE</span>=<span class="kw">SPFILE</span>;
+<span class="kw">ALTER SYSTEM RESET</span> open_cursors <span class="kw">SCOPE</span>=<span class="kw">SPFILE</span>;
+
+<span class="cm">-- Method 2: Recreate the SPFILE from a clean PFILE</span>
+<span class="kw">CREATE SPFILE FROM PFILE</span>=<span class="str">'path/to/clean/init.ora'</span>;
+
+<span class="cm">-- After resetting static params, restart to apply:</span>
+<span class="kw">SHUTDOWN IMMEDIATE</span>;
+<span class="kw">STARTUP</span>;</pre>
+      </div>
+      <div class="explanation">
+        <strong>ALTER SYSTEM RESET</strong> removes the parameter entry from the SPFILE, forcing Oracle to use its
+        built-in default value on next startup. This is the clean way to undo a SPFILE change without knowing the original value.
+      </div>
+    </div>
+  </div>
+  <!-- END Exercise 1 -->
+
+
+  <!-- ── EXERCISE 2 ── -->
+  <div class="exercise" id="ex3-2">
+    <div class="exercise-header">
+      <span class="ex-num">Exercise 2</span>
+      <h3>Dynamic Performance Views</h3>
+    </div>
+
+    <div class="step">
+      <div class="box box-info">
+        <strong>What are Dynamic Performance Views (v$ views)?</strong>
+        <p>These are <em>virtual views</em> maintained by Oracle in memory. They give real-time information about the state of the database instance —
+        memory usage, running processes, files, sessions, etc. They are called "dynamic" because the data changes continuously as the database operates.
+        They do NOT persist data across shutdowns. They belong to SYS and start with <code>V$</code> (or their synonyms <code>GV$</code> for RAC).</p>
+      </div>
+    </div>
+
+    <!-- Steps 1-9 -->
+    <div class="step">
+      <div class="step-label">Step 1</div>
+      <div class="step-q">Display the logical block size defined by DB_BLOCK_SIZE.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">SHOW PARAMETER</span> db_block_size;
+<span class="cm">-- or:</span>
+<span class="kw">SELECT</span> value <span class="kw">FROM</span> <span class="view">v$parameter</span> <span class="kw">WHERE</span> name = <span class="str">'db_block_size'</span>;</pre>
+      </div>
+      <div class="explanation">
+        <code>db_block_size</code> = size in bytes of one Oracle data block. Common values: <strong>8192</strong> (8KB, default).
+        This is a <em>static parameter</em> — set at database creation and cannot be changed afterward.
+        Larger blocks = fewer I/O operations for large sequential reads. Smaller blocks = better for OLTP random access.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Step 2</div>
+      <div class="step-q">Display information about the SGA (System Global Area).</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Summary of SGA components:</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="view">v$sga</span>;
+
+<span class="cm">-- Detailed breakdown:</span>
+<span class="kw">SELECT</span> pool, name, bytes <span class="kw">FROM</span> <span class="view">v$sgastat</span> <span class="kw">ORDER BY</span> pool, name;
+
+<span class="cm">-- Or using SHOW SGA:</span>
+<span class="kw">SHOW SGA</span>;</pre>
+      </div>
+      <div class="box box-exam">
+        <strong>SGA (System Global Area) — memory shared by ALL Oracle processes:</strong>
+        <ul>
+          <li><strong>Buffer Cache</strong>: Caches data blocks read from disk</li>
+          <li><strong>Shared Pool</strong>: Caches SQL execution plans and data dictionary</li>
+          <li><strong>Redo Log Buffer</strong>: Temporary buffer for redo log entries before writing to disk</li>
+          <li><strong>Large Pool</strong>: Used for parallel queries, RMAN backups</li>
+          <li><strong>Java Pool</strong>: Used for Java stored procedures</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Step 3</div>
+      <div class="step-q">Display information about the PGA (Program Global Area).</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="view">v$pgastat</span>;</pre>
+      </div>
+      <div class="box box-exam">
+        <strong>SGA vs PGA — key distinction for the exam:</strong>
+        <table class="comparison-table">
+          <tr><th></th><th>SGA</th><th>PGA</th></tr>
+          <tr><td><strong>Stands for</strong></td><td>System Global Area</td><td>Program Global Area</td></tr>
+          <tr><td><strong>Shared by</strong></td><td>ALL processes</td><td>ONE process (private)</td></tr>
+          <tr><td><strong>Contains</strong></td><td>Shared cache, redo buffer</td><td>Sort area, session data</td></tr>
+          <tr><td><strong>View</strong></td><td>v$sga, v$sgastat</td><td>v$pgastat</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Step 4</div>
+      <div class="step-q">Display the list of options installed with the Oracle server.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">SELECT</span> parameter, value
+<span class="kw">FROM</span>  <span class="view">v$option</span>
+<span class="kw">ORDER BY</span> parameter;</pre>
+      </div>
+      <div class="explanation">
+        <code>v$option</code> shows which Oracle options/features are installed (e.g., Partitioning, OLAP, Spatial, Label Security).
+        <code>value = TRUE</code> means the option is installed and licensed; <code>FALSE</code> means it is not available.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Step 5</div>
+      <div class="step-q">Display the list of control files.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">SELECT</span> name, status, block_size
+<span class="kw">FROM</span>  <span class="view">v$controlfile</span>;</pre>
+      </div>
+      <div class="explanation">
+        <strong>Control files</strong> are critical binary files that Oracle reads at startup. They contain:
+        database name, location of datafiles and redo logs, checkpoint info, RMAN backup info.
+        Oracle requires at least one control file to start. Best practice: maintain <strong>2–3 copies</strong> on different disks.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Step 6</div>
+      <div class="step-q">Display the current status of memory_target and memory_max_target parameters.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">SELECT</span> name, value, description
+<span class="kw">FROM</span>  <span class="view">v$parameter</span>
+<span class="kw">WHERE</span> name <span class="kw">IN</span> (<span class="str">'memory_target'</span>, <span class="str">'memory_max_target'</span>);</pre>
+      </div>
+      <div class="box box-exam">
+        <strong>Automatic Memory Management (AMM):</strong>
+        <ul>
+          <li><code>memory_target</code> → total memory Oracle can use for SGA+PGA combined. If set > 0, Oracle manages SGA/PGA automatically.</li>
+          <li><code>memory_max_target</code> → the absolute ceiling. <code>memory_target</code> can never exceed this.</li>
+          <li>If both are 0, Oracle uses manual SGA/PGA sizing (via sga_target, pga_aggregate_target).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Step 7</div>
+      <div class="step-q">Display the list of background processes.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Only show processes that are actually running (paddr != '00')</span>
+<span class="kw">SELECT</span> name, description
+<span class="kw">FROM</span>  <span class="view">v$bgprocess</span>
+<span class="kw">WHERE</span> paddr != <span class="str">'00'</span>
+<span class="kw">ORDER BY</span> name;</pre>
+      </div>
+      <div class="box box-exam">
+        <strong>Key Oracle background processes to know:</strong>
+        <table class="comparison-table">
+          <tr><th>Process</th><th>Full Name</th><th>Role</th></tr>
+          <tr><td>SMON</td><td>System Monitor</td><td>Instance recovery on startup, coalesces free space</td></tr>
+          <tr><td>PMON</td><td>Process Monitor</td><td>Cleans up failed user processes, frees resources</td></tr>
+          <tr><td>DBWR</td><td>Database Writer</td><td>Writes dirty blocks from buffer cache to datafiles</td></tr>
+          <tr><td>LGWR</td><td>Log Writer</td><td>Writes redo log buffer to redo log files</td></tr>
+          <tr><td>CKPT</td><td>Checkpoint</td><td>Updates control files and datafile headers at checkpoints</td></tr>
+          <tr><td>ARCH</td><td>Archiver</td><td>Copies filled redo log files to archive log destination</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Step 8</div>
+      <div class="step-q">Query v$DATABASE to display the name of the database used in the current instance.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="kw">SELECT</span> name, db_unique_name, cdb, con_id,
+       log_mode, open_mode, created
+<span class="kw">FROM</span>  <span class="view">v$database</span>;</pre>
+      </div>
+      <div class="explanation">
+        <code>v$database</code> is one of the most important views. Key columns:
+        <code>name</code> = database name, <code>log_mode</code> = ARCHIVELOG or NOARCHIVELOG,
+        <code>open_mode</code> = READ WRITE / READ ONLY / MOUNTED, <code>cdb</code> = YES/NO (is it a Container DB?).
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Step 9</div>
+      <div class="step-q">Use: V$CONTROLFILE, V$DATAFILE, V$TABLESPACE, V$LOGFILE.</div>
+      <div class="code-block">
+        <div class="code-header"><span class="lang">SQL</span></div>
+        <pre><span class="cm">-- Control files (binary metadata files)</span>
+<span class="kw">SELECT</span> name, status <span class="kw">FROM</span> <span class="view">v$controlfile</span>;
+
+<span class="cm">-- Data files (where actual table/index data is stored)</span>
+<span class="kw">SELECT</span> file#, name, status, bytes/1024/1024 size_mb
+<span class="kw">FROM</span>  <span class="view">v$datafile</span>;
+
+<span class="cm">-- Tablespaces (logical storage containers grouping datafiles)</span>
+<span class="kw">SELECT</span> ts#, name, included_in_database_backup
+<span class="kw">FROM</span>  <span class="view">v$tablespace</span>;
+
+<span class="cm">-- Redo log files (used for recovery)</span>
+<span class="kw">SELECT</span> group#, member, status, type
+<span class="kw">FROM</span>  <span class="view">v$logfile</span>;</pre>
+      </div>
+      <div class="box box-exam">
+        <strong>Oracle physical file types — must know:</strong>
+        <table class="comparison-table">
+          <tr><th>File Type</th><th>View</th><th>Purpose</th></tr>
+          <tr><td>Control File</td><td>v$controlfile</td><td>Database structure metadata, required at startup</td></tr>
+          <tr><td>Data File (.dbf)</td><td>v$datafile</td><td>Stores actual data (tables, indexes, etc.)</td></tr>
+          <tr><td>Redo Log File</td><td>v$logfile</td><td>Records every change for crash recovery</td></tr>
+          <tr><td>Parameter File</td><td>v$parameter / v$spparameter</td><td>Startup configuration</td></tr>
+          <tr><td>Archive Log</td><td>v$archived_log</td><td>Saved redo logs for point-in-time recovery</td></tr>
+        </table>
+        <p><strong>Tablespace vs Datafile:</strong> A <em>tablespace</em> is logical (e.g., USERS, SYSTEM, TEMP). A <em>datafile</em> is physical (a .dbf file on disk). One tablespace can span multiple datafiles.</p>
+      </div>
+    </div>
+  </div>
+  <!-- END Exercise 2 -->
+</div>
+<!-- END LAB 3 -->
+
+</main>
+
+<footer>
+  Oracle DBA · MI–S6 · Faculté des Sciences Ben M'Sick · Université Hassan II de Casablanca<br>
+  Academic Year 2025/2026 · Study guide created for Lab 2 & Lab 3
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
